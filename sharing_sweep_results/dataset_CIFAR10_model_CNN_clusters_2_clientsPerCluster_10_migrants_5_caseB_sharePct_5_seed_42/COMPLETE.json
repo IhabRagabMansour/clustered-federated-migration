@@ -1,0 +1,19 @@
+{
+  "status": "complete",
+  "meta": {
+    "dataset": "CIFAR-10",
+    "model": "CNN",
+    "num_clusters": 2,
+    "clients_per_cluster": 10,
+    "total_clients": 20,
+    "seed": 42,
+    "migration_round": 40,
+    "num_migrants": 5,
+    "sharing_percent": 5.0,
+    "beta": 0.95,
+    "share_interval": 5,
+    "global_rounds": 60,
+    "local_epochs": 1,
+    "case": "caseB"
+  }
+}

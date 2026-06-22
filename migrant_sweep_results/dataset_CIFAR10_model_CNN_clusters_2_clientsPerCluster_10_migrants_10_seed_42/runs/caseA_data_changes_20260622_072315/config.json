@@ -1,0 +1,72 @@
+{
+  "data": {
+    "dataset": "CIFAR-10",
+    "data_path": "./data/datasets",
+    "batch_size": 256,
+    "eval_batch_size": 1024
+  },
+  "training": {
+    "global_rounds": 60,
+    "local_epochs": 1,
+    "learning_rate": 0.01,
+    "optimizer": "SGD",
+    "momentum": 0.9,
+    "weight_decay": 0.0001
+  },
+  "model": {
+    "architecture": "CNN",
+    "resnet_depth": 18
+  },
+  "clustered": {
+    "num_clusters": 2,
+    "total_clients": 20,
+    "assignment": "class_based",
+    "sharing": {
+      "enabled": false,
+      "beta": 0.9,
+      "interval": 5,
+      "mode": "full_model"
+    },
+    "migration": {
+      "schedule": [
+        {
+          "round": 40,
+          "clients": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "src": 0,
+          "dst": 1
+        }
+      ],
+      "behavior_change": "data_changes",
+      "keep_weights": true
+    },
+    "evaluation": {
+      "cluster_test": true,
+      "global_test": true,
+      "variance_window": 10
+    }
+  },
+  "experiment": {
+    "name": "caseA_data_changes",
+    "seed": 42,
+    "device": "auto"
+  },
+  "logging": {
+    "save_path": "migrant_sweep_results\\dataset_CIFAR10_model_CNN_clusters_2_clientsPerCluster_10_migrants_10_seed_42\\runs",
+    "verbose": false
+  },
+  "plotting": {
+    "enabled": true,
+    "save_path": "migrant_sweep_results\\dataset_CIFAR10_model_CNN_clusters_2_clientsPerCluster_10_migrants_10_seed_42\\plots"
+  }
+}

@@ -1,0 +1,2 @@
+dataset,model,num_clusters,clients_per_cluster,total_clients,seed,migration_round,num_migrants,sharing_percent,beta,share_interval,global_rounds,local_epochs,case,submode,status,run_dir,error
+CIFAR-10,CNN,2,10,20,43,40,5,30.0,0.7,5,60,1,caseB,data_changes,ok,sharing_sweep_results\dataset_CIFAR10_model_CNN_clusters_2_clientsPerCluster_10_migrants_5_caseB_sharePct_30_seed_43\runs\caseB_data_changes_20260622_105030,

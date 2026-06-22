@@ -1,0 +1,24 @@
+{
+  "rolling_std": {
+    "0": [
+      0.0
+    ],
+    "1": [
+      0.0
+    ],
+    "2": [
+      0.0
+    ],
+    "3": [
+      0.0
+    ],
+    "4": [
+      0.0
+    ]
+  },
+  "migration_impact": [],
+  "between_cluster_variance": [
+    21.068
+  ],
+  "migration_impact_global": []
+}

@@ -1,0 +1,65 @@
+# ======================================================================
+# Clustered Federated Learning with Client Migration
+# Case A (isolated clusters) vs Case B (inter-cluster weight sharing)
+# ======================================================================
+
+# Data
+data:
+  dataset: "CIFAR-10"         # "MNIST", "F-MNIST", or "CIFAR-10"
+  data_path: "./data/datasets"
+  batch_size: 256             # local training batch size
+  eval_batch_size: 1024       # large batch for evaluation (GPU throughput)
+
+# Training
+training:
+  global_rounds: 60
+  local_epochs: 1
+  learning_rate: 0.01
+  optimizer: "SGD"            # "SGD" or "Adam"
+  momentum: 0.9
+  weight_decay: 0.0001
+
+# Model
+model:
+  architecture: "ResNet"        # "CNN" or "ResNet"
+  resnet_depth: 18
+
+# Clustering
+clustered:
+  num_clusters: 5
+  total_clients: 20           # split as evenly as possible across clusters
+  assignment: "class_based"   # later: "gradient" / "loss_curve"
+
+  # Case A vs Case B
+  sharing:
+    enabled: false            # false = Case A (isolated), true = Case B (weight sharing)
+    beta: 0.9                 # weight on OWN cluster (0.1-0.9); (1-beta) split over others
+    interval: 5               # mix every N rounds
+    mode: "full_model"        # "full_model" (Phase 1-3) or "partial_layer" (Phase 4)
+
+  # Client migration (stronger: move 3 of cluster 0's 4 clients into cluster 4)
+  migration:
+    schedule:
+      - {round: 40, clients: [0, 1, 2], src: 0, dst: 4}
+    behavior_change: "membership_only"  # "membership_only" or "data_changes" (compare.py runs both)
+    keep_weights: true        # migrant keeps its weights (core of the experiment)
+
+  # Evaluation
+  evaluation:
+    cluster_test: true        # per-cluster class-restricted test set
+    global_test: true
+    variance_window: 10       # window W for rolling std + before/after analysis
+
+# Experiment
+experiment:
+  name: "clustered_caseA"
+  seed: 42
+  device: "auto"             # "auto", "cpu", or "cuda"
+
+# Logging & plotting
+logging:
+  save_path: "./logs/results"
+  verbose: true
+plotting:
+  enabled: true
+  save_path: "./plots/results"

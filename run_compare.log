@@ -1,0 +1,192 @@
+======================================================================
+COMPARISON: Case A (isolated) vs Case B (sharing)
+======================================================================
+Device: cuda | Clusters: 5 | Clients: 20 | Mode: Case A (isolated)
+
+Cluster -> classes:
+  Cluster 0: classes [0, 1] | clients 4
+  Cluster 1: classes [2, 3] | clients 4
+  Cluster 2: classes [4, 5] | clients 4
+  Cluster 3: classes [6, 7] | clients 4
+  Cluster 4: classes [8, 9] | clients 4
+Logger initialised: ./logs/results\compare_caseA_20260605_012154
+
+======================================================================
+Training
+======================================================================
+Round   1/60 | cluster_test_acc C0:99.0 C1:78.7 C2:85.9 C3:88.2 C4:49.1
+Round   2/60 | cluster_test_acc C0:99.8 C1:96.5 C2:98.0 C3:99.2 C4:94.9
+Round   3/60 | cluster_test_acc C0:99.8 C1:97.5 C2:99.1 C3:99.4 C4:96.6
+Round   4/60 | cluster_test_acc C0:99.9 C1:98.0 C2:99.6 C3:99.5 C4:97.6
+Round   5/60 | cluster_test_acc C0:99.9 C1:98.3 C2:99.7 C3:99.5 C4:97.8
+Round   6/60 | cluster_test_acc C0:99.9 C1:98.6 C2:99.8 C3:99.5 C4:98.3
+Round   7/60 | cluster_test_acc C0:99.9 C1:98.7 C2:99.9 C3:99.6 C4:98.5
+Round   8/60 | cluster_test_acc C0:99.9 C1:98.8 C2:99.9 C3:99.5 C4:98.7
+Round   9/60 | cluster_test_acc C0:100.0 C1:98.8 C2:99.9 C3:99.5 C4:98.7
+Round  10/60 | cluster_test_acc C0:99.9 C1:98.9 C2:99.9 C3:99.6 C4:98.7
+Round  11/60 | cluster_test_acc C0:100.0 C1:99.1 C2:99.9 C3:99.6 C4:98.9
+Round  12/60 | cluster_test_acc C0:100.0 C1:99.2 C2:99.9 C3:99.6 C4:98.9
+Round  13/60 | cluster_test_acc C0:100.0 C1:99.2 C2:99.9 C3:99.6 C4:99.1
+Round  14/60 | cluster_test_acc C0:100.0 C1:99.4 C2:99.9 C3:99.6 C4:99.1
+Round  15/60 | cluster_test_acc C0:100.0 C1:99.5 C2:99.9 C3:99.7 C4:99.0
+Round  16/60 | cluster_test_acc C0:100.0 C1:99.5 C2:100.0 C3:99.7 C4:99.1
+Round  17/60 | cluster_test_acc C0:100.0 C1:99.6 C2:99.9 C3:99.7 C4:99.4
+Round  18/60 | cluster_test_acc C0:100.0 C1:99.5 C2:100.0 C3:99.7 C4:99.2
+Round  19/60 | cluster_test_acc C0:100.0 C1:99.6 C2:100.0 C3:99.7 C4:99.4
+Round  20/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.2
+Round  21/60 | cluster_test_acc C0:100.0 C1:99.7 C2:99.9 C3:99.7 C4:99.2
+Round  22/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.7 C4:99.3
+Round  23/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.5
+Round  24/60 | cluster_test_acc C0:100.0 C1:99.7 C2:99.9 C3:99.8 C4:99.2
+Round  25/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.4
+Round  26/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.5
+Round  27/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.5
+Round  28/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.5
+Round  29/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.5
+  [Round 30] Migrated client 0: cluster 0 -> 4 (membership_only)
+Round  30/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.4 <<MIGRATION
+Round  31/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:60.5
+Round  32/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.9 C4:98.8
+Round  33/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:94.6
+Round  34/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  35/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.9 C4:96.6
+Round  36/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.4
+Round  37/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:97.5
+Round  38/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.3
+Round  39/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:98.3
+Round  40/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  41/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.1
+Round  42/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.1
+Round  43/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:98.9
+Round  44/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.0
+Round  45/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  46/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.0
+Round  47/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  48/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.0
+Round  49/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.0
+Round  50/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.1
+Round  51/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  52/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  53/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  54/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  55/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  56/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+Round  57/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.3
+Round  58/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.3
+Round  59/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.3
+Round  60/60 | cluster_test_acc C0:100.0 C1:99.9 C2:100.0 C3:99.9 C4:99.2
+
+============================================================
+Migration impact (cluster test accuracy)
+============================================================
+  Cluster 0 @ round 30: before_mean=99.95 after_min_drop=0.00 std 0.00->0.01 recovery=0 rounds
+  Cluster 4 @ round 30: before_mean=99.40 after_min_drop=38.89 std 0.13->11.38 recovery=0 rounds
+
+Results saved to: ./logs/results\compare_caseA_20260605_012154
+Device: cuda | Clusters: 5 | Clients: 20 | Mode: Case B (sharing)
+
+Cluster -> classes:
+  Cluster 0: classes [0, 1] | clients 4
+  Cluster 1: classes [2, 3] | clients 4
+  Cluster 2: classes [4, 5] | clients 4
+  Cluster 3: classes [6, 7] | clients 4
+  Cluster 4: classes [8, 9] | clients 4
+Logger initialised: ./logs/results\compare_caseB_20260605_012453
+
+======================================================================
+Training
+======================================================================
+Round   1/60 | cluster_test_acc C0:99.0 C1:78.7 C2:85.9 C3:88.2 C4:49.1
+Round   2/60 | cluster_test_acc C0:99.8 C1:96.5 C2:98.0 C3:99.2 C4:94.9
+Round   3/60 | cluster_test_acc C0:99.8 C1:97.5 C2:99.1 C3:99.4 C4:96.6
+Round   4/60 | cluster_test_acc C0:99.9 C1:98.0 C2:99.6 C3:99.5 C4:97.6
+Round   5/60 | cluster_test_acc C0:99.9 C1:98.3 C2:99.7 C3:99.4 C4:97.6 [MIX]
+Round   6/60 | cluster_test_acc C0:99.9 C1:98.4 C2:99.7 C3:99.5 C4:97.8
+Round   7/60 | cluster_test_acc C0:99.9 C1:98.5 C2:99.8 C3:99.5 C4:98.2
+Round   8/60 | cluster_test_acc C0:99.9 C1:98.8 C2:99.9 C3:99.5 C4:98.6
+Round   9/60 | cluster_test_acc C0:100.0 C1:98.8 C2:99.9 C3:99.6 C4:98.6
+Round  10/60 | cluster_test_acc C0:100.0 C1:98.9 C2:99.9 C3:99.6 C4:98.7 [MIX]
+Round  11/60 | cluster_test_acc C0:99.9 C1:98.9 C2:99.9 C3:99.6 C4:98.5
+Round  12/60 | cluster_test_acc C0:99.9 C1:99.1 C2:100.0 C3:99.7 C4:98.8
+Round  13/60 | cluster_test_acc C0:100.0 C1:99.2 C2:100.0 C3:99.7 C4:98.8
+Round  14/60 | cluster_test_acc C0:100.0 C1:99.1 C2:99.9 C3:99.7 C4:98.9
+Round  15/60 | cluster_test_acc C0:100.0 C1:99.2 C2:99.9 C3:99.7 C4:98.9 [MIX]
+Round  16/60 | cluster_test_acc C0:100.0 C1:99.3 C2:100.0 C3:99.7 C4:98.7
+Round  17/60 | cluster_test_acc C0:99.9 C1:99.4 C2:99.9 C3:99.8 C4:98.8
+Round  18/60 | cluster_test_acc C0:100.0 C1:99.2 C2:100.0 C3:99.8 C4:99.0
+Round  19/60 | cluster_test_acc C0:99.9 C1:99.5 C2:100.0 C3:99.7 C4:99.2
+Round  20/60 | cluster_test_acc C0:100.0 C1:99.5 C2:100.0 C3:99.8 C4:98.9 [MIX]
+Round  21/60 | cluster_test_acc C0:100.0 C1:99.4 C2:100.0 C3:99.8 C4:99.0
+Round  22/60 | cluster_test_acc C0:100.0 C1:99.6 C2:100.0 C3:99.8 C4:98.7
+Round  23/60 | cluster_test_acc C0:100.0 C1:99.6 C2:100.0 C3:99.8 C4:99.2
+Round  24/60 | cluster_test_acc C0:100.0 C1:99.6 C2:100.0 C3:99.8 C4:99.4
+Round  25/60 | cluster_test_acc C0:100.0 C1:99.6 C2:100.0 C3:99.8 C4:98.9 [MIX]
+Round  26/60 | cluster_test_acc C0:100.0 C1:99.4 C2:100.0 C3:99.8 C4:98.9
+Round  27/60 | cluster_test_acc C0:100.0 C1:99.5 C2:100.0 C3:99.8 C4:99.3
+Round  28/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.5
+Round  29/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.9 C4:99.4
+  [Round 30] Migrated client 0: cluster 0 -> 4 (membership_only)
+Round  30/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.3 [MIX] <<MIGRATION
+Round  31/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:48.9
+Round  32/60 | cluster_test_acc C0:100.0 C1:99.6 C2:100.0 C3:99.9 C4:98.3
+Round  33/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:74.8
+Round  34/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:98.6
+Round  35/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:93.4 [MIX]
+Round  36/60 | cluster_test_acc C0:99.9 C1:99.7 C2:100.0 C3:99.8 C4:98.8
+Round  37/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:92.0
+Round  38/60 | cluster_test_acc C0:100.0 C1:99.6 C2:100.0 C3:99.9 C4:99.2
+Round  39/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:95.4
+Round  40/60 | cluster_test_acc C0:100.0 C1:99.7 C2:100.0 C3:99.8 C4:99.2 [MIX]
+Round  41/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:98.4
+Round  42/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.2
+Round  43/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:98.1
+Round  44/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.3
+Round  45/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:97.9 [MIX]
+Round  46/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.3
+Round  47/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.9 C4:93.2
+Round  48/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.4
+Round  49/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:87.8
+Round  50/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.0 [MIX]
+Round  51/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:94.0
+Round  52/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.9 C4:98.9
+Round  53/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:89.7
+Round  54/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.0
+Round  55/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:95.3 [MIX]
+Round  56/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.5
+Round  57/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.9 C4:95.0
+Round  58/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:99.6
+Round  59/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.9 C4:96.1
+Round  60/60 | cluster_test_acc C0:100.0 C1:99.8 C2:100.0 C3:99.8 C4:98.9 [MIX]
+
+============================================================
+Migration impact (cluster test accuracy)
+============================================================
+  Cluster 0 @ round 30: before_mean=99.95 after_min_drop=0.05 std 0.00->0.01 recovery=0 rounds
+  Cluster 4 @ round 30: before_mean=99.13 after_min_drop=50.26 std 0.25->15.36 recovery=0 rounds
+
+Results saved to: ./logs/results\compare_caseB_20260605_012453
+Plot saved: ./plots/results\compare_cluster0_acc.png
+Plot saved: ./plots/results\compare_cluster4_acc.png
+Plot saved: ./plots/results\compare_between_variance.png
+
+======================================================================
+SUMMARY (migration impact on cluster test accuracy)
+======================================================================
+cluster           metric         Case A         Case B
+      0 clusterTest_before          99.95          99.95
+      0 clusterTest_maxDrop           0.00           0.05
+      0 clusterTest_afterStd           0.01           0.01
+      0 clusterTest_recovery              0              0
+      0 globalTest_before          21.14          21.14
+      0 globalTest_maxDrop          -0.00           0.01
+      0 globalTest_afterStd           0.00           0.00
+      4 clusterTest_before          99.40          99.13
+      4 clusterTest_maxDrop          38.89          50.26
+      4 clusterTest_afterStd          11.38          15.36
+      4 clusterTest_recovery              0              0
+      4 globalTest_before          19.71          19.66
+      4 globalTest_maxDrop           0.11           0.16
+      4 globalTest_afterStd           7.43           7.69
+
+Comparison saved to: ./logs/results\comparison_20260605_012737
+Figures saved to:    ./plots/results (compare_*.png)

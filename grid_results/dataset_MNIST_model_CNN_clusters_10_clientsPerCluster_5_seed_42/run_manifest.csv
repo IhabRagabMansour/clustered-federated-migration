@@ -1,0 +1,5 @@
+dataset,model,num_clusters,clients_per_cluster,total_clients,seed,migration_round,num_migrants,beta,share_interval,global_rounds,local_epochs,submode,case,status,run_dir,error
+MNIST,CNN,10,5,50,42,40,3,0.9,5,60,1,membership_only,caseA,ok,grid_results\dataset_MNIST_model_CNN_clusters_10_clientsPerCluster_5_seed_42\runs\caseA_membership_only_20260614_065933,
+MNIST,CNN,10,5,50,42,40,3,0.9,5,60,1,membership_only,caseB,ok,grid_results\dataset_MNIST_model_CNN_clusters_10_clientsPerCluster_5_seed_42\runs\caseB_membership_only_20260614_070224,
+MNIST,CNN,10,5,50,42,40,3,0.9,5,60,1,data_changes,caseA,ok,grid_results\dataset_MNIST_model_CNN_clusters_10_clientsPerCluster_5_seed_42\runs\caseA_data_changes_20260614_070515,
+MNIST,CNN,10,5,50,42,40,3,0.9,5,60,1,data_changes,caseB,ok,grid_results\dataset_MNIST_model_CNN_clusters_10_clientsPerCluster_5_seed_42\runs\caseB_data_changes_20260614_070806,

@@ -1,0 +1,78 @@
+{
+  "rolling_std": {
+    "0": [
+      0.0,
+      0.9250000000000043,
+      2.020313507024757
+    ],
+    "1": [
+      0.0,
+      0.02499999999999858,
+      1.756100478016247
+    ],
+    "2": [
+      0.0,
+      1.1000000000000014,
+      2.2171052197754544
+    ],
+    "3": [
+      0.0,
+      3.575000000000003,
+      4.79693188981828
+    ],
+    "4": [
+      0.0,
+      0.07499999999999574,
+      1.0741922029548003
+    ]
+  },
+  "migration_impact": [
+    {
+      "migration_round": 2,
+      "before_mean": 84.3,
+      "after_mean": 87.67500000000001,
+      "before_std": 0.0,
+      "after_std": 1.5249999999999986,
+      "max_drop": -1.8500000000000085,
+      "recovery_time": 0,
+      "cluster": 0
+    },
+    {
+      "migration_round": 2,
+      "before_mean": 82.15,
+      "after_mean": 81.125,
+      "before_std": 0.0,
+      "after_std": 1.1749999999999972,
+      "max_drop": 2.200000000000003,
+      "recovery_time": 0,
+      "cluster": 4
+    }
+  ],
+  "between_cluster_variance": [
+    21.068,
+    34.72060000000003,
+    39.81100000000001
+  ],
+  "migration_impact_global": [
+    {
+      "migration_round": 2,
+      "before_mean": 16.86,
+      "after_mean": 17.535,
+      "before_std": 0.0,
+      "after_std": 0.3049999999999997,
+      "max_drop": -0.370000000000001,
+      "recovery_time": 0,
+      "cluster": 0
+    },
+    {
+      "migration_round": 2,
+      "before_mean": 16.43,
+      "after_mean": 16.225,
+      "before_std": 0.0,
+      "after_std": 0.23500000000000032,
+      "max_drop": 0.4399999999999995,
+      "recovery_time": 0,
+      "cluster": 4
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+# Case A vs Case B - Migration Impact (both sub-modes)
+
+Dataset: MNIST | clusters: 5 | clients: 20 | rounds: 60 | beta: 0.9 | interval: 5
+
+Migration(s): [{'round': 40, 'clients': [0, 1, 2], 'src': 0, 'dst': 4}]
+
+| submode | cluster | metric | Case A (isolated) | Case B (sharing) |
+|---|---|---|---|---|
+| membership_only | 0 | clusterTest_before | 99.95 | 99.92 |
+| membership_only | 0 | clusterTest_maxDrop | -0.00 | 0.02 |
+| membership_only | 0 | clusterTest_afterStd | 0.00 | 0.02 |
+| membership_only | 0 | clusterTest_recovery | 0 | 0 |
+| membership_only | 0 | globalTest_before | 21.14 | 21.13 |
+| membership_only | 0 | globalTest_maxDrop | -0.00 | 0.00 |
+| membership_only | 0 | globalTest_afterStd | 0.00 | 0.00 |
+| membership_only | 4 | clusterTest_before | 98.69 | 98.59 |
+| membership_only | 4 | clusterTest_maxDrop | 98.69 | 84.42 |
+| membership_only | 4 | clusterTest_afterStd | 32.24 | 30.30 |
+| membership_only | 4 | clusterTest_recovery | 2 | -1 |
+| membership_only | 4 | globalTest_before | 19.57 | 19.55 |
+| membership_only | 4 | globalTest_maxDrop | 0.16 | 0.41 |
+| membership_only | 4 | globalTest_afterStd | 6.99 | 6.15 |
+| data_changes | 0 | clusterTest_before | 99.95 | 99.92 |
+| data_changes | 0 | clusterTest_maxDrop | -0.00 | 0.02 |
+| data_changes | 0 | clusterTest_afterStd | 0.00 | 0.02 |
+| data_changes | 0 | clusterTest_recovery | 0 | 0 |
+| data_changes | 0 | globalTest_before | 21.14 | 21.13 |
+| data_changes | 0 | globalTest_maxDrop | -0.00 | 0.00 |
+| data_changes | 0 | globalTest_afterStd | 0.00 | 0.01 |
+| data_changes | 4 | clusterTest_before | 98.69 | 98.59 |
+| data_changes | 4 | clusterTest_maxDrop | 20.08 | 0.91 |
+| data_changes | 4 | clusterTest_afterStd | 5.89 | 0.29 |
+| data_changes | 4 | clusterTest_recovery | 2 | 0 |
+| data_changes | 4 | globalTest_before | 19.57 | 19.55 |
+| data_changes | 4 | globalTest_maxDrop | 3.98 | 0.18 |
+| data_changes | 4 | globalTest_afterStd | 1.17 | 0.06 |
