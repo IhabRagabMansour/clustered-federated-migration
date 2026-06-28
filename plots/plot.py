@@ -63,13 +63,13 @@ def plot_between_cluster_variance(rounds, variance: List[float],
 
 def plot_case_comparison(rounds, series_a: List[float], series_b: List[float],
                          migration_rounds, cluster_id, title, save_path, fname):
-    """Overlay one cluster's accuracy for Case A vs Case B."""
+    """Overlay one cluster's accuracy for isolated vs knowledge-sharing runs."""
     plt.figure(figsize=(11, 6))
     ax = plt.gca()
     ax.plot(rounds, series_a, linewidth=2.2, color="#d62728",
-            label=f"Case A (isolated) - cluster {cluster_id}")
+            label=f"Isolated - cluster {cluster_id}")
     ax.plot(rounds, series_b, linewidth=2.2, color="#1f77b4",
-            label=f"Case B (sharing) - cluster {cluster_id}")
+            label=f"Knowledge sharing - cluster {cluster_id}")
     _migration_lines(ax, migration_rounds)
     ax.set_xlabel("Communication Round")
     ax.set_ylabel("Cluster Test Accuracy (%)")
@@ -84,8 +84,8 @@ def plot_between_variance_comparison(rounds, var_a: List[float], var_b: List[flo
     plt.figure(figsize=(11, 6))
     ax = plt.gca()
     n = min(len(rounds), len(var_a), len(var_b))
-    ax.plot(rounds[:n], var_a[:n], linewidth=2.2, color="#d62728", label="Case A (isolated)")
-    ax.plot(rounds[:n], var_b[:n], linewidth=2.2, color="#1f77b4", label="Case B (sharing)")
+    ax.plot(rounds[:n], var_a[:n], linewidth=2.2, color="#d62728", label="Isolated")
+    ax.plot(rounds[:n], var_b[:n], linewidth=2.2, color="#1f77b4", label="Knowledge sharing")
     _migration_lines(ax, migration_rounds)
     ax.set_xlabel("Communication Round")
     ax.set_ylabel("Between-Cluster Accuracy Variance")

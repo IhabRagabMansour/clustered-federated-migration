@@ -1,9 +1,9 @@
 """
 Plot maximum accuracy drop versus inter-cluster sharing percentage.
 
-The script reads completed outputs from run_sharing_sweep.py. Case A is shown
-as a no-sharing baseline, while Case B is plotted across the requested sharing
-percentages.
+The script reads completed outputs from run_sharing_sweep.py. The isolated
+setting is shown as a no-sharing baseline, while knowledge sharing is plotted
+across the requested sharing percentages.
 
 Default output:
     figures/results/sharing_sweep_data_changes_k2_cnn_cifar10.{pdf,svg,png,pgf}
@@ -192,7 +192,7 @@ def plot_sweep(
                 linewidth=1.8,
                 markersize=4,
                 capsize=3,
-                label="Case B",
+                label="Knowledge sharing",
                 color=CASE_B_COLOR,
             )
 
@@ -206,7 +206,7 @@ def plot_sweep(
                 colors=CASE_A_COLOR,
                 linestyles="--",
                 linewidth=1.7,
-                label="Case A",
+                label="Isolated",
             )
             ax.fill_between(
                 [x_min, x_max],

@@ -143,12 +143,12 @@ def sharing_module(ax, x, y, w, h):
     text(ax, x + 0.40, y + 0.20, "optional weighted mixing of cluster models",
          size=8.3, color=COLORS["muted"], ha="left")
 
-    badge_w = 0.86
+    badge_w = 1.88
     badge_h = 0.30
     rounded_box(ax, x + w - badge_w - 0.36, y + h - badge_h - 0.20,
                 badge_w, badge_h, "white", COLORS["orange"], radius=0.07, lw=1.15)
     text(ax, x + w - badge_w / 2 - 0.36, y + h - badge_h / 2 - 0.20,
-         "Case B", size=8.2, color=COLORS["orange"], weight="bold")
+         "Knowledge sharing", size=7.0, color=COLORS["orange"], weight="bold")
 
 
 def migration_controller(ax, x, y, w, h):

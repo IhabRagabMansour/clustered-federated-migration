@@ -4691,16 +4691,16 @@
 \definecolor{currentstroke}{rgb}{0.435294,0.498039,0.572549}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{4.556942in}{5.313988in}}%
-\pgfpathlineto{\pgfqpoint{4.668053in}{5.313988in}}%
-\pgfpathlineto{\pgfqpoint{4.779164in}{5.313988in}}%
+\pgfpathmoveto{\pgfqpoint{4.255916in}{5.313988in}}%
+\pgfpathlineto{\pgfqpoint{4.367027in}{5.313988in}}%
+\pgfpathlineto{\pgfqpoint{4.478138in}{5.313988in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.868053in,y=5.275099in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Case A}}%
+\pgftext[x=4.567027in,y=5.275099in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Isolated}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -4709,16 +4709,16 @@
 \definecolor{currentstroke}{rgb}{0.741176,0.490196,0.141176}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{5.438197in}{5.313988in}}%
-\pgfpathlineto{\pgfqpoint{5.549308in}{5.313988in}}%
-\pgfpathlineto{\pgfqpoint{5.660419in}{5.313988in}}%
+\pgfpathmoveto{\pgfqpoint{5.167263in}{5.313988in}}%
+\pgfpathlineto{\pgfqpoint{5.278375in}{5.313988in}}%
+\pgfpathlineto{\pgfqpoint{5.389486in}{5.313988in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.749308in,y=5.275099in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Case B}}%
+\pgftext[x=5.478375in,y=5.275099in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Knowledge sharing}}%
 \end{pgfscope}%
 \end{pgfpicture}%
 \makeatother%

@@ -1092,8 +1092,8 @@
 \definecolor{currentstroke}{rgb}{0.435294,0.498039,0.572549}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{2.875413in}{2.622099in}}%
-\pgfpathlineto{\pgfqpoint{2.875413in}{2.733210in}}%
+\pgfpathmoveto{\pgfqpoint{2.303454in}{2.622099in}}%
+\pgfpathlineto{\pgfqpoint{2.303454in}{2.733210in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -1111,7 +1111,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.875413in}{2.622099in}%
+\pgfsys@transformshift{2.303454in}{2.622099in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1130,7 +1130,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.875413in}{2.733210in}%
+\pgfsys@transformshift{2.303454in}{2.733210in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1141,8 +1141,8 @@
 \definecolor{currentstroke}{rgb}{0.435294,0.498039,0.572549}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{2.764302in}{2.677654in}}%
-\pgfpathlineto{\pgfqpoint{2.986525in}{2.677654in}}%
+\pgfpathmoveto{\pgfqpoint{2.192342in}{2.677654in}}%
+\pgfpathlineto{\pgfqpoint{2.414565in}{2.677654in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -1169,7 +1169,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.875413in}{2.677654in}%
+\pgfsys@transformshift{2.303454in}{2.677654in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1177,7 +1177,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.075413in,y=2.638766in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Case A}}%
+\pgftext[x=2.503454in,y=2.638766in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Isolated}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -1186,8 +1186,8 @@
 \definecolor{currentstroke}{rgb}{0.741176,0.490196,0.141176}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{2.875413in}{2.467161in}}%
-\pgfpathlineto{\pgfqpoint{2.875413in}{2.578272in}}%
+\pgfpathmoveto{\pgfqpoint{2.303454in}{2.467161in}}%
+\pgfpathlineto{\pgfqpoint{2.303454in}{2.578272in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -1205,7 +1205,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.875413in}{2.467161in}%
+\pgfsys@transformshift{2.303454in}{2.467161in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1224,7 +1224,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.875413in}{2.578272in}%
+\pgfsys@transformshift{2.303454in}{2.578272in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1235,8 +1235,8 @@
 \definecolor{currentstroke}{rgb}{0.741176,0.490196,0.141176}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
-\pgfpathmoveto{\pgfqpoint{2.764302in}{2.522716in}}%
-\pgfpathlineto{\pgfqpoint{2.986525in}{2.522716in}}%
+\pgfpathmoveto{\pgfqpoint{2.192342in}{2.522716in}}%
+\pgfpathlineto{\pgfqpoint{2.414565in}{2.522716in}}%
 \pgfusepath{stroke}%
 \end{pgfscope}%
 \begin{pgfscope}%
@@ -1263,7 +1263,7 @@
 \pgfusepath{stroke,fill}%
 }%
 \begin{pgfscope}%
-\pgfsys@transformshift{2.875413in}{2.522716in}%
+\pgfsys@transformshift{2.303454in}{2.522716in}%
 \pgfsys@useobject{currentmarker}{}%
 \end{pgfscope}%
 \end{pgfscope}%
@@ -1271,7 +1271,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.075413in,y=2.483827in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Case B}}%
+\pgftext[x=2.503454in,y=2.483827in,left,base]{\color{textcolor}{\sffamily\fontsize{8.000000}{9.600000}\selectfont\catcode`\^=\active\def^{\ifmmode\sp\else\^{}\fi}\catcode`\%=\active\def%{\%}Knowledge sharing}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%

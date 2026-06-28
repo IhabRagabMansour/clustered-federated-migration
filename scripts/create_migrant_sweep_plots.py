@@ -33,8 +33,8 @@ DATASET_LABELS = {
     "CIFAR-10": "CIFAR-10",
 }
 CASE_LABELS = {
-    "caseA": "Case A",
-    "caseB": "Case B",
+    "caseA": "Isolated",
+    "caseB": "Knowledge sharing",
 }
 CASE_COLORS = {
     "caseA": "#6f7f92",
