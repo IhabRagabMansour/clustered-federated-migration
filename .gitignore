@@ -4,3 +4,5 @@ __pycache__/
 *.pyo 
 *.pyd 
 Ehab_FLTA26/
+.env
+analysis_review/
