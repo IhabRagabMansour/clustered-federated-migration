@@ -1,0 +1,8 @@
+# Versions match the local environment the code was tested with (conda env "gossip").
+# RTX 5090 (Blackwell, sm_120) needs a CUDA 12.8 build of torch >= 2.7:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+torch>=2.7
+torchvision>=0.22
+numpy>=1.26
+pyyaml>=6.0
+matplotlib>=3.8

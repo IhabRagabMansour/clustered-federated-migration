@@ -76,7 +76,23 @@ def build_and_run(sharing_enabled: bool = None, experiment_name: str = None,
     X_train, y_train = materialize(train_set, device)
     X_test, y_test = materialize(test_set, device)
 
-    client_idx_lists, client_cluster, client_classes = partitioner.build_client_indices()
+    # ---- Migration settings ----
+    mig = config.clustered.migration
+    schedule = mig.schedule.to_dict() if hasattr(mig.schedule, "to_dict") else mig.schedule
+    schedule = list(schedule or [])
+    is_control = bool(mig.get("control", False))
+    # Hold back one disjoint shard per migrant in EVERY cluster, so data_changes
+    # migrants never receive residents' examples, and every client (source,
+    # destination, migrant) holds the same amount of data -> migrants carry the
+    # same FedAvg weight as residents. Applied in every sub-mode and in controls
+    # so the partition is identical across them. Only destination shards are used.
+    reserve_slots = {}
+    if bool(mig.get("reserve_for_migrants", False)):
+        n_migrants = sum(len(e["clients"]) for e in schedule)
+        reserve_slots = {c: n_migrants for c in range(num_clusters)}
+
+    client_idx_lists, client_cluster, client_classes = partitioner.build_client_indices(
+        reserve_slots=reserve_slots)
     cluster_test_idx = {c: torch.as_tensor(arr, dtype=torch.long, device=device)
                         for c, arr in enumerate(partitioner.cluster_test_index_lists())}
     global_test_idx = torch.as_tensor(partitioner.global_test_indices(),
@@ -111,18 +127,16 @@ def build_and_run(sharing_enabled: bool = None, experiment_name: str = None,
         global_test_idx=global_test_idx, init_model=init_model, device=device,
         eval_batch_size=eval_bs)
 
-    # ---- Migration scheduler ----
-    mig = config.clustered.migration
-    schedule = mig.schedule.to_dict() if hasattr(mig.schedule, "to_dict") else mig.schedule
+    # ---- Migration scheduler (a control keeps the nominal schedule for analysis only) ----
     scheduler = MigrationScheduler(
-        schedule=schedule, behavior_change=mig.behavior_change, partitioner=partitioner,
-        verbose=config.logging.verbose)
+        schedule=[] if is_control else schedule, behavior_change=mig.behavior_change,
+        partitioner=partitioner, verbose=config.logging.verbose)
 
     # ---- Logger ----
     logger = ClusterLogger(
         experiment_name=config.experiment.name, save_path=config.logging.save_path,
         num_clusters=num_clusters, variance_window=config.clustered.evaluation.variance_window,
-        config_dict=config.to_dict())
+        config_dict=config.to_dict(), analysis_events=schedule)
 
     # ---- Run ----
     print("\n" + "=" * 70)
@@ -157,7 +171,8 @@ def build_and_run(sharing_enabled: bool = None, experiment_name: str = None,
     return {
         "history": logger.history,
         "analysis": analysis,
-        "migration_rounds": scheduler.migration_rounds,
+        "migration_rounds": sorted({int(e["round"]) for e in schedule}),
+        "is_control": is_control,
         "affected_clusters": affected,
         "dst_clusters": dst_clusters,
         "sharing_on": sharing_on,

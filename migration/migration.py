@@ -39,15 +39,24 @@ class MigrationScheduler:
                 src = client.cluster_id
                 client.cluster_id = dst          # reassign membership; weights untouched
 
+                data_source = "unchanged"
                 if self.behavior_change == "data_changes" and self.partitioner is not None:
                     import torch
-                    new_classes = self.partitioner.cluster_classes[dst]
-                    new_idx = self.partitioner.resample_indices(new_classes, client.num_samples)
+                    new_idx = self.partitioner.take_reserved(dst)
+                    if new_idx is not None:
+                        data_source = "reserved_disjoint"
+                    else:
+                        # Legacy path: draws from the same pool as resident clients,
+                        # so the new data can duplicate residents' examples.
+                        new_classes = self.partitioner.cluster_classes[dst]
+                        new_idx = self.partitioner.resample_indices(new_classes, client.num_samples)
+                        data_source = "resampled_shared_pool"
                     client.set_indices(torch.as_tensor(new_idx, dtype=torch.long,
                                                        device=client.X.device))
 
                 record = {"round": round_num, "client": int(cid), "src": int(src), "dst": dst,
-                          "behavior_change": self.behavior_change}
+                          "behavior_change": self.behavior_change,
+                          "data_source": data_source, "num_samples": client.num_samples}
                 self.applied.append(record)
                 executed.append(record)
                 if self.verbose:

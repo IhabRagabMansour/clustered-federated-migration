@@ -58,26 +58,52 @@ class ClusteredPartitioner:
             self.rng.shuffle(idx)
             self._class_pool[int(c)] = idx
 
-    def build_client_indices(self) -> Tuple[List[np.ndarray], List[int], List[List[int]]]:
-        """Return (client_train_indices, client_cluster_id, client_classes)."""
+    def build_client_indices(self, reserve_slots: Dict[int, int] = None
+                             ) -> Tuple[List[np.ndarray], List[int], List[List[int]]]:
+        """Return (client_train_indices, client_cluster_id, client_classes).
+
+        `reserve_slots` maps cluster -> number of extra client-sized shards to
+        hold back from that cluster's pool. Held-back shards are never given to
+        resident clients; `take_reserved` hands them to clients that migrate
+        into the cluster under `data_changes`, so their new data is disjoint
+        from every resident's data (no duplicated examples).
+        """
+        reserve_slots = reserve_slots or {}
+        self.reserve: Dict[int, List[np.ndarray]] = {}
         client_indices, client_cluster, client_classes = [], [], []
         for cid, classes in enumerate(self.cluster_classes):
             n_clients = self.counts[cid]
             if n_clients == 0:
                 continue
-            per_client = [[] for _ in range(n_clients)]
+            n_reserve = int(reserve_slots.get(cid, 0))
+            n_parts = n_clients + n_reserve
+            per_part = [[] for _ in range(n_parts)]
             for cls in classes:
                 pool = self._class_pool[cls]
-                parts = np.array_split(pool, n_clients)
-                for k in range(n_clients):
-                    per_client[k].extend(parts[k].tolist())
+                parts = np.array_split(pool, n_parts)
+                for k in range(n_parts):
+                    per_part[k].extend(parts[k].tolist())
             for k in range(n_clients):
-                idx = np.array(per_client[k], dtype=np.int64)
+                idx = np.array(per_part[k], dtype=np.int64)
                 self.rng.shuffle(idx)
                 client_indices.append(idx)
                 client_cluster.append(cid)
                 client_classes.append(list(classes))
+            if n_reserve:
+                shards = []
+                for k in range(n_clients, n_parts):
+                    idx = np.array(per_part[k], dtype=np.int64)
+                    self.rng.shuffle(idx)
+                    shards.append(idx)
+                self.reserve[cid] = shards
         return client_indices, client_cluster, client_classes
+
+    def take_reserved(self, cluster: int):
+        """Pop one held-back shard for `cluster`, or None if none is left."""
+        shards = getattr(self, "reserve", {}).get(cluster)
+        if shards:
+            return shards.pop(0)
+        return None
 
     def cluster_test_index_lists(self) -> List[np.ndarray]:
         """Per-cluster test-set indices (restricted to that cluster's classes)."""

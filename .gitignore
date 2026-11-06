@@ -5,4 +5,8 @@ __pycache__/
 *.pyd 
 Ehab_FLTA26/
 .env
+analysis_review/results_v2/
+results_bench/
+results_bench_par/
+vast/instance.env
 analysis_review/

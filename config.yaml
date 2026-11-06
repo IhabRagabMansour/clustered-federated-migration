@@ -42,7 +42,10 @@ clustered:
     schedule:
       - {round: 40, clients: [0, 1, 2], src: 0, dst: 4}
     behavior_change: "membership_only"  # "membership_only" or "data_changes" (compare.py runs both)
-    keep_weights: true        # migrant keeps its weights (core of the experiment)
+    keep_weights: true        # (legacy, unused) see `handover`
+    handover: "keep_weights"  # "keep_weights" (migrant brings old weights) or "adopt_destination"
+    reserve_for_migrants: false  # true = data_changes migrants get disjoint held-back data
+    control: false            # true = no-migration control (schedule used for analysis only)
 
   # Evaluation
   evaluation:

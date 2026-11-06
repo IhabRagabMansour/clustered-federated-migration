@@ -58,8 +58,31 @@ def before_after_stats(rounds: List[int], values: List[float],
                     recovery_time = int(rr) - migration_round
                     break
 
+    # Censoring / relapse diagnostics. `recovery_time` keeps the legacy encoding
+    # (-1 = never recovered); averages must exclude -1 and report the
+    # never-recovered fraction separately (see `recovered`).
+    recovered = recovery_time >= 0
+    relapsed = False
+    rounds_below_after_recovery = 0
+    if recovered and recovery_time > 0 and before.size:
+        threshold = before_mean - recovery_eps
+        rec_round = migration_round + recovery_time
+        later = after_vals[after_rounds > rec_round]
+        rounds_below_after_recovery = int((later < threshold).sum())
+        relapsed = rounds_below_after_recovery > 0
+    rounds_below_total = 0
+    if before.size:
+        rounds_below_total = int((after_vals < before_mean - recovery_eps).sum())
+    final_mean = float(v[-window:].mean()) if v.size >= window else float("nan")
+
     return {
         "migration_round": migration_round,
+        "recovered": bool(recovered),
+        "relapsed": bool(relapsed),
+        "rounds_below_after_recovery": rounds_below_after_recovery,
+        "rounds_below_threshold": rounds_below_total,
+        "final_mean": final_mean,
+        "final_minus_before": (final_mean - before_mean) if before.size else float("nan"),
         "before_mean": before_mean,
         "after_mean": float(after.mean()) if after.size else float("nan"),
         "before_std": float(before.std()) if before.size else float("nan"),
