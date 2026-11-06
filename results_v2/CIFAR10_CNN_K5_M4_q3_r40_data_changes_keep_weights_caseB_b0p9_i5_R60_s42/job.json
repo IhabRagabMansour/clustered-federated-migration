@@ -1,0 +1,19 @@
+{
+  "plan": "main",
+  "dataset": "CIFAR-10",
+  "model": "CNN",
+  "num_clusters": 5,
+  "clients_per_cluster": 4,
+  "num_migrants": 3,
+  "migration_round": 40,
+  "submode": "data_changes",
+  "handover": "keep_weights",
+  "case": "caseB",
+  "beta": 0.9,
+  "interval": 5,
+  "rounds": 60,
+  "seed": 42,
+  "code_version": "v2.0",
+  "reserve_for_migrants": true,
+  "hash": "371afcee5831c9b5"
+}

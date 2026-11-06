@@ -1,0 +1,13 @@
+Device: cuda | Clusters: 5 | Clients: 35 | Mode: Case A (isolated)
+
+Cluster -> classes:
+  Cluster 0: classes [0, 1] | clients 7
+  Cluster 1: classes [2, 3] | clients 7
+  Cluster 2: classes [4, 5] | clients 7
+  Cluster 3: classes [6, 7] | clients 7
+  Cluster 4: classes [8, 9] | clients 7
+Logger initialised: /root/cfm-repo/results_v2/CIFAR10_CNN_K5_M7_q3_r40_membership_only_adopt_destination_caseA_b0p9_i5_R60_s43/run_20261106_222256
+
+======================================================================
+Training
+======================================================================
