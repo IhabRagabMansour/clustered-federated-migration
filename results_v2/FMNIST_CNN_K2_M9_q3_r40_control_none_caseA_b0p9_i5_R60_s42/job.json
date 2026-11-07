@@ -1,0 +1,19 @@
+{
+  "plan": "main",
+  "dataset": "F-MNIST",
+  "model": "CNN",
+  "num_clusters": 2,
+  "clients_per_cluster": 9,
+  "num_migrants": 3,
+  "migration_round": 40,
+  "submode": "control",
+  "handover": "none",
+  "case": "caseA",
+  "beta": 0.9,
+  "interval": 5,
+  "rounds": 60,
+  "seed": 42,
+  "code_version": "v2.0",
+  "reserve_for_migrants": true,
+  "hash": "14b9e55dcb3b9122"
+}

@@ -1,0 +1,21 @@
+Device: cuda | Clusters: 5 | Clients: 30 | Mode: Case B (sharing)
+
+Cluster -> classes:
+  Cluster 0: classes [0, 1] | clients 6
+  Cluster 1: classes [2, 3] | clients 6
+  Cluster 2: classes [4, 5] | clients 6
+  Cluster 3: classes [6, 7] | clients 6
+  Cluster 4: classes [8, 9] | clients 6
+Logger initialised: /root/cfm-repo/results_v2/FMNIST_CNN_K5_M6_q3_r40_data_changes_keep_weights_caseB_b0p9_i5_R60_s43/run_20261107_005053
+
+======================================================================
+Training
+======================================================================
+
+============================================================
+Migration impact (cluster test accuracy)
+============================================================
+  Cluster 0 @ round 40: before_mean=98.27 after_min_drop=-0.23 std 0.66->0.12 recovery=0 rounds
+  Cluster 4 @ round 40: before_mean=99.54 after_min_drop=0.04 std 0.04->0.04 recovery=0 rounds
+
+Results saved to: /root/cfm-repo/results_v2/FMNIST_CNN_K5_M6_q3_r40_data_changes_keep_weights_caseB_b0p9_i5_R60_s43/run_20261107_005053

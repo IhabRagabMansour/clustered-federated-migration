@@ -1,0 +1,18 @@
+Device: cuda | Clusters: 2 | Clients: 20 | Mode: Case B (sharing)
+
+Cluster -> classes:
+  Cluster 0: classes [0, 1, 2, 3, 4] | clients 10
+  Cluster 1: classes [5, 6, 7, 8, 9] | clients 10
+Logger initialised: /root/cfm-repo/results_v2/CIFAR10_CNN_K2_M10_q5_r40_control_none_caseB_b0p95_i5_R60_s43/run_20261107_034515
+
+======================================================================
+Training
+======================================================================
+
+============================================================
+Migration impact (cluster test accuracy)
+============================================================
+  Cluster 0 @ round 40: before_mean=75.92 after_min_drop=-0.88 std 0.57->0.70 recovery=0 rounds
+  Cluster 1 @ round 40: before_mean=85.81 after_min_drop=0.29 std 0.56->0.46 recovery=0 rounds
+
+Results saved to: /root/cfm-repo/results_v2/CIFAR10_CNN_K2_M10_q5_r40_control_none_caseB_b0p95_i5_R60_s43/run_20261107_034515
