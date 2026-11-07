@@ -96,3 +96,33 @@ cluster x metric family) for the analysis.
 python run_v2.py --plan all --dry-run
 python run_v2.py --plan main --filter MNIST_CNN_K2_M3_ s42 --workers 2 --resume
 ```
+
+## Gradual-drift plan (252 jobs, `results_drift/`)
+
+Instead of swapping a migrant's data in one round, q=3 clients of cluster 0 drift
+from round 30: each round a larger fraction p of their local data is replaced by
+destination-class data (held-back, disjoint shards), reaching p=1 after D rounds
+(D in {0, 5, 10, 20}; D=0 = the old instant swap). Dataset size never changes.
+
+When does a drifting client change cluster?
+
+| policy | meaning |
+|---|---|
+| `never` | stays in its source cluster (no re-clustering) |
+| `fixed` | moves when p reaches 1 |
+| `detected` | from round 10, every client checks its loss on its current data under every cluster model and moves to the best one after 2 consecutive wins (IFCA-style). Residents can switch too; logged as `false_switches`. |
+
+Grid: CIFAR-10 CNN, K=2, M in {10, 5}, 3 seeds, Case A/B,
+never + fixed x {keep, adopt} + detected x {keep, adopt} per D, plus a no-drift
+control per (M, case, seed); 80 rounds. Per-client accuracy is logged every round:
+the accuracy of the client's current cluster model on test data matching the
+client's current class mix (`metrics.json` -> `client_acc`, `client_cluster`,
+`client_drift_p`).
+
+```bash
+bash vast/deploy.sh HOST PORT
+PLAN=drift bash vast/remote.sh start 4
+PLAN=drift bash vast/remote.sh status
+PLAN=drift bash vast/remote.sh fetch
+python analysis_drift/analyze_drift.py      # tables + figures into analysis_drift/
+```

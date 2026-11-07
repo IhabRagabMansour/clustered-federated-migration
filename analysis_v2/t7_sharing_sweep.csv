@@ -1,0 +1,10 @@
+family,migration_impact,migration_impact,migration_impact_global,migration_impact_global,migration_impact_premix,migration_impact_premix
+role,dst,src,dst,src,dst,src
+sharing,,,,,,
+0.0,3.419,0.934,1.709,0.467,3.419,0.934
+0.05,1.759,0.739,0.879,0.369,1.767,0.805
+0.1,1.206,0.73,0.603,0.365,1.261,0.816
+0.2,0.713,0.845,0.356,0.092,0.775,0.923
+0.3,0.648,4.819,-0.137,-1.078,0.657,1.423
+0.4,-2.678,-1.28,-0.561,0.151,0.389,0.447
+0.5,0.272,-0.805,-0.455,-0.374,0.559,0.422

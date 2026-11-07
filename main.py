@@ -18,6 +18,7 @@ from models.model import create_model
 from federated.client import Client
 from clustering.cluster_manager import ClusterManager
 from migration.migration import MigrationScheduler
+from migration.drift import DriftController
 from federated.trainer import ClusteredTrainer
 from logs.logger import ClusterLogger
 from plots.plot import (plot_cluster_accuracy, plot_rolling_std,
@@ -81,6 +82,9 @@ def build_and_run(sharing_enabled: bool = None, experiment_name: str = None,
     schedule = mig.schedule.to_dict() if hasattr(mig.schedule, "to_dict") else mig.schedule
     schedule = list(schedule or [])
     is_control = bool(mig.get("control", False))
+    drift_cfg = config.clustered.get("drift", {}) or {}
+    drift_cfg = drift_cfg.to_dict() if hasattr(drift_cfg, "to_dict") else dict(drift_cfg)
+    drift_on = bool(drift_cfg.get("enabled", False)) and not is_control
     # Hold back one disjoint shard per migrant in EVERY cluster, so data_changes
     # migrants never receive residents' examples, and every client (source,
     # destination, migrant) holds the same amount of data -> migrants carry the
@@ -128,9 +132,21 @@ def build_and_run(sharing_enabled: bool = None, experiment_name: str = None,
         eval_batch_size=eval_bs)
 
     # ---- Migration scheduler (a control keeps the nominal schedule for analysis only) ----
+    # With drift on, the DriftController owns data changes and migrations; the
+    # schedule only names the drifting clients and their src/dst.
     scheduler = MigrationScheduler(
-        schedule=[] if is_control else schedule, behavior_change=mig.behavior_change,
+        schedule=[] if (is_control or drift_on) else schedule,
+        behavior_change=mig.behavior_change,
         partitioner=partitioner, verbose=config.logging.verbose)
+    drift = None
+    if drift_on:
+        drift = DriftController(
+            schedule=schedule, start_round=int(drift_cfg.get("start_round", 30)),
+            duration=int(drift_cfg.get("duration", 10)), policy=str(drift_cfg.get("policy", "fixed")),
+            partitioner=partitioner, patience=int(drift_cfg.get("patience", 2)),
+            detect_from=int(drift_cfg.get("detect_from", 10)), verbose=config.logging.verbose)
+        # anchor the before/after window statistics on the drift start
+        schedule = [dict(e, round=drift.start) for e in schedule]
 
     # ---- Logger ----
     logger = ClusterLogger(
@@ -142,7 +158,7 @@ def build_and_run(sharing_enabled: bool = None, experiment_name: str = None,
     print("\n" + "=" * 70)
     print("Training")
     print("=" * 70)
-    trainer = ClusteredTrainer(manager, scheduler, config, logger)
+    trainer = ClusteredTrainer(manager, scheduler, config, logger, drift=drift)
     trainer.run()
     analysis = logger.finalize()
 

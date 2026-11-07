@@ -35,6 +35,11 @@ class ClusterLogger:
             "cluster_sizes": {c: [] for c in range(num_clusters)},
             "weight_shift": [],        # list of {round, {cluster: l2}}
             "migrations": [],          # flat list of executed migration records
+            # per-client series (only when logging.client_metrics is on):
+            # client_acc[cid][t]   accuracy of the client's current cluster model on
+            #                      test data matching the client's current class mix
+            # client_cluster[cid][t], client_drift_p[cid][t]
+            "client_acc": {}, "client_cluster": {}, "client_drift_p": {},
         }
 
         if config_dict is not None:
@@ -53,7 +58,8 @@ class ClusterLogger:
         print(f"Logger initialised: {self.run_dir}")
 
     def log_round(self, round_num, cluster_test_acc, global_test_acc, train_acc,
-                  weight_shift, migrations, cluster_sizes, cluster_test_acc_premix=None):
+                  weight_shift, migrations, cluster_sizes, cluster_test_acc_premix=None,
+                  client_stats=None):
         premix = cluster_test_acc_premix if cluster_test_acc_premix is not None else cluster_test_acc
         self.history["rounds"].append(round_num)
         for c in range(self.num_clusters):
@@ -66,6 +72,13 @@ class ClusterLogger:
             self.history["weight_shift"].append({"round": round_num, "shift": weight_shift})
         if migrations:
             self.history["migrations"].extend(migrations)
+        if client_stats:
+            for cid, a in client_stats["acc"].items():
+                self.history["client_acc"].setdefault(int(cid), []).append(round(a, 3))
+                self.history["client_cluster"].setdefault(int(cid), []).append(
+                    int(client_stats["cluster"][cid]))
+                self.history["client_drift_p"].setdefault(int(cid), []).append(
+                    round(float(client_stats["drift_p"].get(cid, 0.0)), 4))
 
         for c in range(self.num_clusters):
             self._writer.writerow([round_num, c,

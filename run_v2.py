@@ -46,6 +46,7 @@ from typing import Dict, List
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_OUT = ROOT / "results_v2"
+DRIFT_OUT = ROOT / "results_drift"
 CODE_VERSION = "v2.0"
 
 DATASETS = ["CIFAR-10", "F-MNIST", "MNIST"]   # CIFAR first: longest jobs start early
@@ -77,6 +78,10 @@ class Job:
     interval: int
     rounds: int
     seed: int
+    # drift plan only (defaults keep every v2 key and hash unchanged)
+    drift_duration: int = -1    # D; -1 = no drift
+    policy: str = ""            # never | fixed | detected
+    client_metrics: bool = False
 
     @property
     def sharing(self) -> bool:
@@ -87,16 +92,24 @@ class Job:
         return self.submode == "control"
 
     @property
+    def is_drift(self) -> bool:
+        return self.drift_duration >= 0
+
+    @property
     def key(self) -> str:
         ds = self.dataset.replace("-", "")
         b = f"{self.beta:g}".replace(".", "p")
+        sub = f"drift_D{self.drift_duration}_{self.policy}" if self.is_drift else self.submode
         return (f"{ds}_{self.model}_K{self.num_clusters}_M{self.clients_per_cluster}"
-                f"_q{self.num_migrants}_r{self.migration_round}_{self.submode}"
+                f"_q{self.num_migrants}_r{self.migration_round}_{sub}"
                 f"_{self.handover}_{self.case}_b{b}_i{self.interval}"
                 f"_R{self.rounds}_s{self.seed}")
 
     def spec(self) -> dict:
         d = asdict(self)
+        for k, default in (("drift_duration", -1), ("policy", ""), ("client_metrics", False)):
+            if d[k] == default:
+                d.pop(k)
         d["code_version"] = CODE_VERSION
         d["reserve_for_migrants"] = True
         return d
@@ -161,11 +174,44 @@ def plan_sweeps() -> List[Job]:
     return jobs
 
 
+DRIFT_START = 30
+DRIFT_ROUNDS = 80
+DRIFT_DURATIONS = [0, 5, 10, 20]
+DRIFT_M = [10, 5]
+
+
+def plan_drift() -> List[Job]:
+    """Gradual drift (CIFAR-10, K=2, q=3): drift from round 30 over D rounds;
+    policies never / fixed / detected; keep vs adopt handover; Case A vs B;
+    plus a no-drift control per (M, case, seed). Per-client accuracy logged."""
+    jobs = []
+    ds, K, q = "CIFAR-10", 2, 3
+    for M in DRIFT_M:
+        for s in SEEDS:
+            for case, _ in CASES:
+                common = dict(plan="drift", dataset=ds, model="CNN", num_clusters=K,
+                              clients_per_cluster=M, num_migrants=q,
+                              migration_round=DRIFT_START, case=case, beta=DEFAULT_BETA,
+                              interval=DEFAULT_INTERVAL, rounds=DRIFT_ROUNDS, seed=s,
+                              client_metrics=True)
+                for D in DRIFT_DURATIONS:
+                    jobs.append(Job(submode="drift", handover="none", drift_duration=D,
+                                    policy="never", **common))
+                    for pol in ["fixed", "detected"]:
+                        for h in HANDOVERS:
+                            jobs.append(Job(submode="drift", handover=h, drift_duration=D,
+                                            policy=pol, **common))
+                jobs.append(Job(submode="control", handover="none", **common))
+    return jobs
+
+
 def build_jobs(plan: str) -> List[Job]:
     if plan == "main":
         jobs = plan_main()
     elif plan == "sweeps":
         jobs = plan_sweeps()
+    elif plan == "drift":
+        jobs = plan_drift()
     else:
         jobs = plan_main() + plan_sweeps()
     # Dedupe on run identity (the plan label is not part of the identity).
@@ -204,6 +250,14 @@ def run_single(job: Job, out_root: Path) -> None:
     mig["handover"] = "keep_weights" if job.is_control else job.handover
     mig["reserve_for_migrants"] = True
     mig["control"] = job.is_control
+    c["clustered"]["drift"] = {
+        "enabled": job.is_drift, "start_round": job.migration_round,
+        "duration": max(job.drift_duration, 0), "policy": job.policy or "fixed",
+        "patience": 2, "detect_from": 10}
+    if job.is_drift:
+        mig["behavior_change"] = "data_changes"
+        mig["handover"] = "keep_weights" if job.handover == "none" else job.handover
+    c["logging"]["client_metrics"] = job.client_metrics
     c["experiment"]["seed"] = job.seed
     c["experiment"]["name"] = "run"
     c["logging"]["save_path"] = str(job_dir)
@@ -267,7 +321,8 @@ def launch(jobs: List[Job], out_root: Path, workers: int, resume: bool) -> int:
             log = open(out_root / j.key / "stdout.log", "w")
             p = subprocess.Popen(
                 [sys.executable, str(ROOT / "run_v2.py"), "--run-key", j.key,
-                 "--plan", "all", "--out", str(out_root), "--rounds", str(j.rounds)],
+                 "--plan", "drift" if j.plan == "drift" else "all",
+                 "--out", str(out_root), "--rounds", str(j.rounds)],
                 cwd=str(ROOT), stdout=log, stderr=subprocess.STDOUT, env=env)
             running[p] = (j, log, time.time())
         time.sleep(1.0)
@@ -331,11 +386,77 @@ def collect(out_root: Path) -> None:
     print(f"wrote {path} ({len(rows)} rows from {len({r['key'] for r in rows})} jobs)")
 
 
+def _mean(xs):
+    xs = [x for x in xs if x == x]
+    return sum(xs) / len(xs) if xs else float("nan")
+
+
+def collect_drift(out_root: Path) -> None:
+    """One row per drift-plan job: accuracy of both clusters and of the drifting /
+    resident clients from the drift start, plus when the drifting clients moved."""
+    rows = []
+    for marker in sorted(out_root.glob("*/COMPLETE.json")):
+        job_dir = marker.parent
+        spec = json.loads((job_dir / "job.json").read_text())
+        run_dir = job_dir / json.loads(marker.read_text())["run_dir"]
+        m = json.loads((run_dir / "metrics.json").read_text())
+        K, q, start = spec["num_clusters"], spec["num_migrants"], spec["migration_round"]
+        rounds = m["rounds"]
+        after = [i for i, r in enumerate(rounds) if r >= start]
+        before = [i for i, r in enumerate(rounds) if start - 10 <= r < start]
+        last = list(range(len(rounds) - 10, len(rounds)))
+        acc = {int(k): v for k, v in m["cluster_test_acc"].items()}
+        cacc = {int(k): v for k, v in m.get("client_acc", {}).items()}
+        ccl = {int(k): v for k, v in m.get("client_cluster", {}).items()}
+        drifting = list(range(q))
+        src_res = [c for c in cacc if c not in drifting and ccl[c][0] == 0]
+        dst_res = [c for c in cacc if c not in drifting and ccl[c][0] == K - 1]
+        migs = [x for x in m.get("migrations", []) if x.get("drifting")]
+        false_sw = [x for x in m.get("migrations", []) if not x.get("drifting", True)]
+
+        def win(series, idx):
+            return _mean([series[i] for i in idx])
+
+        row = {k: spec.get(k, "") for k in (
+            "plan", "dataset", "num_clusters", "clients_per_cluster", "num_migrants",
+            "migration_round", "submode", "handover", "case", "beta", "rounds", "seed",
+            "drift_duration", "policy")}
+        row["key"] = job_dir.name
+        for name, c in (("src", 0), ("dst", K - 1)):
+            row[f"{name}_before"] = win(acc[c], before)
+            row[f"{name}_after"] = win(acc[c], after)
+            row[f"{name}_min_after"] = min(acc[c][i] for i in after)
+            row[f"{name}_last10"] = win(acc[c], last)
+        for name, ids in (("mig", drifting), ("srcres", src_res), ("dstres", dst_res)):
+            row[f"{name}_client_after"] = _mean([win(cacc[c], after) for c in ids]) if ids else ""
+            row[f"{name}_client_min_after"] = (
+                _mean([min(cacc[c][i] for i in after) for c in ids]) if ids else "")
+            row[f"{name}_client_last10"] = _mean([win(cacc[c], last) for c in ids]) if ids else ""
+        row["n_drifting_moved"] = len({x["client"] for x in migs})
+        row["first_move_round"] = min((x["round"] for x in migs), default="")
+        row["mean_move_round"] = _mean([x["round"] for x in migs]) if migs else ""
+        row["mean_move_p"] = _mean([x["drift_p"] for x in migs]) if migs else ""
+        row["false_switches"] = len(false_sw)
+        row["mean_arrival_l2"] = _mean([x["arrival_l2_to_dst"] for x in migs]) if migs else ""
+        rows.append(row)
+    if not rows:
+        print("no complete jobs found")
+        return
+    path = out_root / "summary_drift.csv"
+    with path.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        w.writeheader()
+        w.writerows(rows)
+    print(f"wrote {path} ({len(rows)} jobs)")
+
+
 # --------------------------------------------------------------------------- #
 def parse_args():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--plan", choices=["main", "sweeps", "all"], default="all")
-    ap.add_argument("--out", default=str(DEFAULT_OUT))
+    ap.add_argument("--plan", choices=["main", "sweeps", "all", "drift"], default="all",
+                    help="all = main + sweeps (v2); drift = gradual-drift plan (results_drift/)")
+    ap.add_argument("--out", default=None,
+                    help="default results_v2/ (results_drift/ for --plan drift)")
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--filter", nargs="+", default=None,
@@ -352,13 +473,16 @@ def parse_args():
 
 
 def main():
-    global ROUNDS
+    global ROUNDS, DRIFT_ROUNDS
     args = parse_args()
     if args.rounds:
-        ROUNDS = args.rounds
-    out_root = Path(args.out)
+        ROUNDS = DRIFT_ROUNDS = args.rounds
+    out_root = Path(args.out) if args.out else (DRIFT_OUT if args.plan == "drift" else DEFAULT_OUT)
     if args.collect:
-        collect(out_root)
+        if args.plan == "drift":
+            collect_drift(out_root)
+        else:
+            collect(out_root)
         return
 
     jobs = build_jobs(args.plan)

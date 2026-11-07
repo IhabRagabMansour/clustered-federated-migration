@@ -101,3 +101,16 @@ def evaluate_fast(model: nn.Module, X, y, idx, batch_size: int) -> tuple:
     if total == 0:
         return 0.0, 0.0
     return loss_sum.item() / total, 100.0 * correct.item() / total
+
+
+@torch.no_grad()
+def per_class_accuracy(model: nn.Module, X, y, idx, batch_size: int, num_classes: int):
+    """Accuracy (%) of `model` per class on the rows `idx`; LongTensor-safe, on device."""
+    model.eval()
+    correct = torch.zeros(num_classes, device=X.device)
+    count = torch.zeros(num_classes, device=X.device)
+    for xb, yb in iterate_batches(X, y, idx, batch_size, shuffle=False):
+        hit = (model(xb).argmax(1) == yb).float()
+        correct.index_add_(0, yb, hit)
+        count.index_add_(0, yb, torch.ones_like(hit))
+    return 100.0 * correct / count.clamp(min=1)

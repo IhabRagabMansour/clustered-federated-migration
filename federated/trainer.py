@@ -28,9 +28,11 @@ from metrics.distance import l2_distance
 
 
 class ClusteredTrainer:
-    def __init__(self, manager, scheduler, config, logger):
+    def __init__(self, manager, scheduler, config, logger, drift=None):
         self.m = manager
         self.scheduler = scheduler
+        self.drift = drift                     # DriftController or None
+        self.client_metrics = bool(config.logging.get("client_metrics", False))
         self.cfg = config
         self.logger = logger
 
@@ -49,6 +51,8 @@ class ClusteredTrainer:
     def run(self):
         for r in range(1, self.rounds + 1):
             migrations = self.scheduler.apply(r, self.m.clients_by_id)
+            if self.drift is not None:
+                migrations = migrations + self.drift.step(r, self.m)
             for rec in migrations:
                 client = self.m.clients_by_id[rec["client"]]
                 dst_model = self.m.cluster_models[rec["dst"]]
@@ -106,6 +110,14 @@ class ClusteredTrainer:
             if not mixed_this_round:
                 premix_cluster_test = dict(cluster_test)
 
+            client_stats = None
+            if self.client_metrics:
+                client_stats = {
+                    "acc": self.m.client_accuracies(),
+                    "cluster": {c.client_id: c.cluster_id for c in self.m.clients},
+                    "drift_p": dict(self.drift.p) if self.drift is not None else {},
+                }
+
             # 6. record
             self.logger.log_round(
                 round_num=r,
@@ -116,6 +128,7 @@ class ClusteredTrainer:
                 migrations=migrations,
                 cluster_sizes=self.m.cluster_sizes(),
                 cluster_test_acc_premix=premix_cluster_test,
+                client_stats=client_stats,
             )
 
             if self.verbose:

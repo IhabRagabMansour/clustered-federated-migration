@@ -47,6 +47,16 @@ clustered:
     reserve_for_migrants: false  # true = data_changes migrants get disjoint held-back data
     control: false            # true = no-migration control (schedule used for analysis only)
 
+  # Gradual drift (replaces the instant data_changes swap when enabled). The
+  # migration schedule names the drifting clients and src/dst; its round is ignored.
+  drift:
+    enabled: false
+    start_round: 30           # first round with drifted data
+    duration: 10              # D rounds from p=0 to p=1 (0 = instant swap)
+    policy: "fixed"           # "never" | "fixed" (move when p=1) | "detected" (lowest-loss cluster)
+    patience: 2               # detected: consecutive wins needed before switching
+    detect_from: 10           # detected: first round clients check other clusters
+
   # Evaluation
   evaluation:
     cluster_test: true        # per-cluster class-restricted test set
@@ -63,6 +73,7 @@ experiment:
 logging:
   save_path: "./logs/results"
   verbose: true
+  client_metrics: false       # per-client accuracy on its current class mix (drift runs)
 plotting:
   enabled: true
   save_path: "./plots/results"

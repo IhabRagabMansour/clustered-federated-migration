@@ -1,0 +1,13 @@
+dataset,num_clusters,case,final_mean
+CIFAR-10,2,caseA,45.5
+CIFAR-10,2,caseB,45.9
+CIFAR-10,5,caseA,19.37
+CIFAR-10,5,caseB,19.19
+F-MNIST,2,caseA,55.62
+F-MNIST,2,caseB,56.54
+F-MNIST,5,caseA,26.98
+F-MNIST,5,caseB,26.89
+MNIST,2,caseA,65.66
+MNIST,2,caseB,65.39
+MNIST,5,caseA,26.19
+MNIST,5,caseB,25.76

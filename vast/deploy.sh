@@ -12,7 +12,7 @@ echo "== uploading code to $HOST:$PORT"
 tar czf - \
     --exclude=.git --exclude=.env --exclude='*.env' --exclude=__pycache__ \
     --exclude=data/datasets --exclude=grid_results --exclude=migrant_sweep_results \
-    --exclude=sharing_sweep_results --exclude=results_v2 --exclude=results_bench \
+    --exclude=sharing_sweep_results --exclude=results_v2 --exclude=results_drift --exclude=analysis_v2 --exclude=results_bench \
     --exclude=Ehab_FLTA26 --exclude=analysis_review --exclude=logs/results \
     --exclude=plots/results --exclude=figures --exclude=tmp --exclude='*.log' \
     . | $SSH "mkdir -p ~/cfm && tar xzf - -C ~/cfm"

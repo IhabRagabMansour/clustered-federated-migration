@@ -1,0 +1,15 @@
+,,,ex_dip,ex_dip,ex_max_drop,ex_max_drop
+case,,,caseA,caseB,caseA,caseB
+submode,family,migration_round,,,,
+data_changes,migration_impact,40,1.248,0.247,3.693,1.48
+data_changes,migration_impact,42,1.063,0.38,3.953,2.1
+data_changes,migration_impact_global,40,0.624,0.124,1.847,0.74
+data_changes,migration_impact_global,42,0.531,0.19,1.977,1.05
+data_changes,migration_impact_premix,40,1.248,0.285,3.693,1.82
+data_changes,migration_impact_premix,42,1.063,0.374,3.953,2.1
+membership_only,migration_impact,40,13.067,15.62,37.88,51.62
+membership_only,migration_impact,42,12.841,15.121,36.26,72.387
+membership_only,migration_impact_global,40,-3.921,-5.309,2.26,1.993
+membership_only,migration_impact_global,42,-4.091,-4.831,2.393,2.62
+membership_only,migration_impact_premix,40,13.067,14.907,37.88,51.8
+membership_only,migration_impact_premix,42,12.841,15.098,36.26,72.387
