@@ -1,0 +1,7 @@
+{
+  "hash": "626fd45d5e006b74",
+  "key": "CIFAR10_CNN_K2_M5_q3_r30_drift_D20_fixed_keep_weights_caseB_b0p9_i5_R80_s42",
+  "run_dir": "run_20261107_090746",
+  "seconds": 193.6,
+  "finished": "2026-11-07T09:10:53"
+}

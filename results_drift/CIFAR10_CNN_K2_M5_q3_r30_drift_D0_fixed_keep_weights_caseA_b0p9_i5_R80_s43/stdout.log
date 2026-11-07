@@ -1,0 +1,18 @@
+Device: cuda | Clusters: 2 | Clients: 10 | Mode: Case A (isolated)
+
+Cluster -> classes:
+  Cluster 0: classes [0, 1, 2, 3, 4] | clients 5
+  Cluster 1: classes [5, 6, 7, 8, 9] | clients 5
+Logger initialised: /root/cfm/results_drift/CIFAR10_CNN_K2_M5_q3_r30_drift_D0_fixed_keep_weights_caseA_b0p9_i5_R80_s43/run_20261107_091408
+
+======================================================================
+Training
+======================================================================
+
+============================================================
+Migration impact (cluster test accuracy)
+============================================================
+  Cluster 0 @ round 30: before_mean=78.08 after_min_drop=5.02 std 1.18->2.16 recovery=2 rounds
+  Cluster 1 @ round 30: before_mean=86.47 after_min_drop=7.29 std 1.10->2.75 recovery=2 rounds
+
+Results saved to: /root/cfm/results_drift/CIFAR10_CNN_K2_M5_q3_r30_drift_D0_fixed_keep_weights_caseA_b0p9_i5_R80_s43/run_20261107_091408

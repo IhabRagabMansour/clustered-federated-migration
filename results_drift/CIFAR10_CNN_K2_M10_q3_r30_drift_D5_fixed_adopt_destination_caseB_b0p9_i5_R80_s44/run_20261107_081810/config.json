@@ -1,0 +1,77 @@
+{
+  "data": {
+    "dataset": "CIFAR-10",
+    "data_path": "/root/cfm/data/datasets",
+    "batch_size": 256,
+    "eval_batch_size": 1024
+  },
+  "training": {
+    "global_rounds": 80,
+    "local_epochs": 1,
+    "learning_rate": 0.01,
+    "optimizer": "SGD",
+    "momentum": 0.9,
+    "weight_decay": 0.0001
+  },
+  "model": {
+    "architecture": "CNN",
+    "resnet_depth": 18
+  },
+  "clustered": {
+    "num_clusters": 2,
+    "total_clients": 20,
+    "assignment": "class_based",
+    "sharing": {
+      "enabled": true,
+      "beta": 0.9,
+      "interval": 5,
+      "mode": "full_model"
+    },
+    "migration": {
+      "schedule": [
+        {
+          "round": 30,
+          "clients": [
+            0,
+            1,
+            2
+          ],
+          "src": 0,
+          "dst": 1
+        }
+      ],
+      "behavior_change": "data_changes",
+      "keep_weights": true,
+      "handover": "adopt_destination",
+      "reserve_for_migrants": true,
+      "control": false
+    },
+    "drift": {
+      "enabled": true,
+      "start_round": 30,
+      "duration": 5,
+      "policy": "fixed",
+      "patience": 2,
+      "detect_from": 10
+    },
+    "evaluation": {
+      "cluster_test": true,
+      "global_test": true,
+      "variance_window": 10
+    }
+  },
+  "experiment": {
+    "name": "run",
+    "seed": 44,
+    "device": "auto"
+  },
+  "logging": {
+    "save_path": "/root/cfm/results_drift/CIFAR10_CNN_K2_M10_q3_r30_drift_D5_fixed_adopt_destination_caseB_b0p9_i5_R80_s44",
+    "verbose": false,
+    "client_metrics": true
+  },
+  "plotting": {
+    "enabled": false,
+    "save_path": "./plots/results"
+  }
+}

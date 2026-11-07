@@ -1,0 +1,22 @@
+{
+  "plan": "drift",
+  "dataset": "CIFAR-10",
+  "model": "CNN",
+  "num_clusters": 2,
+  "clients_per_cluster": 5,
+  "num_migrants": 3,
+  "migration_round": 30,
+  "submode": "drift",
+  "handover": "none",
+  "case": "caseB",
+  "beta": 0.9,
+  "interval": 5,
+  "rounds": 80,
+  "seed": 42,
+  "drift_duration": 5,
+  "policy": "never",
+  "client_metrics": true,
+  "code_version": "v2.0",
+  "reserve_for_migrants": true,
+  "hash": "5760c6b6ac3d6eb7"
+}
